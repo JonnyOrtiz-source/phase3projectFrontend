@@ -6,13 +6,18 @@ function ShoesList({ shoes, deleteShoe }) {
       <ShoeListItem key={shoe.id} shoe={shoe} deleteShoe={deleteShoe} />
    ));
    return (
-      <>
-         <div>
-            <Link to="/shoes">👣 All Shoes</Link>&nbsp; &nbsp; &nbsp; &nbsp;
-            <Link to="/shoes/new">+ New Shoe</Link>
+      <div>
+         <div className="text-2xl font-bold">
+            <Link
+               className="inline-grid grid-cols-2 gap-60 underline"
+               to="/shoes"
+            >
+               👣 All Shoes
+            </Link>
+            <Link to="/shoes/new">|➕ New Shoe|</Link>
          </div>
-         <div>{shoesEl}</div>
-      </>
+         <div className="inline-grid grid-cols-3 gap-4">{shoesEl}</div>
+      </div>
    );
 }
 

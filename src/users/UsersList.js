@@ -7,11 +7,16 @@ function UsersList({ users, deleteUser }) {
    ));
    return (
       <>
-         <div>
-            <Link to="/users">👣 All Users</Link>&nbsp; &nbsp; &nbsp; &nbsp;
-            <Link to="/users/new">+ New User</Link>
+         <div className="text-2xl font-bold">
+            <Link
+               className="inline-grid grid-cols-2 gap-54 underline"
+               to="/users"
+            >
+               👥 All Users
+            </Link>
+            <Link to="/users/new">|➕ New User|</Link>
          </div>
-         <div>{usersEl}</div>
+         <div className="inline-grid grid-cols-3 gap-4">{usersEl}</div>
       </>
    );
 }

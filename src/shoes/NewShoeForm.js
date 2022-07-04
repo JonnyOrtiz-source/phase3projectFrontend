@@ -23,7 +23,7 @@ function NewShoeForm({ addShoe }) {
       <div>
          <h1>New Shoe</h1>
          <form onSubmit={handleSubmit}>
-            <fieldset>
+            <fieldset className="p-4">
                <label htmlFor="shoe_name">Shoe Name: &nbsp;</label>
                <input
                   type="text"
@@ -33,7 +33,7 @@ function NewShoeForm({ addShoe }) {
                   onChange={(e) => setShoe_Name(e.target.value)}
                />
             </fieldset>
-            <fieldset>
+            <fieldset className="p-4">
                <label htmlFor="brand">Brand: &nbsp;</label>
                <input
                   type="text"
@@ -43,7 +43,7 @@ function NewShoeForm({ addShoe }) {
                   onChange={(e) => setBrand(e.target.value)}
                />
             </fieldset>
-            <fieldset>
+            <fieldset className="p-4">
                <label htmlFor="sex">Sex: &nbsp;</label>
                <input
                   type="text"
@@ -53,7 +53,7 @@ function NewShoeForm({ addShoe }) {
                   onChange={(e) => setSex(e.target.value)}
                />
             </fieldset>
-            <fieldset>
+            <fieldset className="p-4">
                <label htmlFor="image_url">Image URL: &nbsp;</label>
                <input
                   type="text"
@@ -63,7 +63,7 @@ function NewShoeForm({ addShoe }) {
                   onChange={(e) => setImageUrl(e.target.value)}
                />
             </fieldset>
-            <button type="submit">Add Shoe</button>
+            <button type="submit">|Add Shoe|</button>
          </form>
       </div>
    );

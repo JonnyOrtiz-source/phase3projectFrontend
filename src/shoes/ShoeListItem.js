@@ -5,12 +5,18 @@ function ShoeListItem({
    deleteShoe,
 }) {
    return (
-      <div key={id}>
+      <div className="card" key={id}>
          <figure>
-            <img src={image_url} alt={shoe_name} />
-            <h1>{shoe_name}</h1>
-            <p>{brand}</p>
-            <p>{sex}</p>
+            <img
+               src={
+                  image_url ||
+                  'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930'
+               }
+               alt={shoe_name}
+            />
+            <h1>Shoe Name: {shoe_name}</h1>
+            <p>Brand: {brand}</p>
+            <p>Sex: {sex}</p>
          </figure>
          <div>
             <Link to={`/shoes/${id}`}></Link>
