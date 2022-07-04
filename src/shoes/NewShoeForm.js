@@ -21,7 +21,7 @@ function NewShoeForm({ addShoe }) {
 
    return (
       <div>
-         <h1>New Shoe</h1>
+         <h1 className="text-2xl font-bold underline">New Shoe</h1>
          <form onSubmit={handleSubmit}>
             <fieldset className="p-4">
                <label htmlFor="shoe_name">Shoe Name: &nbsp;</label>
@@ -63,7 +63,12 @@ function NewShoeForm({ addShoe }) {
                   onChange={(e) => setImageUrl(e.target.value)}
                />
             </fieldset>
-            <button type="submit">|Add Shoe|</button>
+            <button
+               className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded"
+               type="submit"
+            >
+               Add Shoe
+            </button>
          </form>
       </div>
    );

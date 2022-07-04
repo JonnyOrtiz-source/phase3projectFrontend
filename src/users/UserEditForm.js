@@ -28,9 +28,11 @@ function UserEditForm({ user = {}, updateUser }) {
 
    return (
       <>
-         <h1>Edit User: {user.username}</h1>
+         <h1 className="text-2xl font-bold underline">
+            Edit User: {user.username}
+         </h1>
          <form onSubmit={handleSubmit}>
-            <fieldset>
+            <fieldset className="p-4">
                <label htmlFor="first_name">First Name: &nbsp;</label>
                <input
                   type="text"
@@ -40,7 +42,7 @@ function UserEditForm({ user = {}, updateUser }) {
                   onChange={(e) => setFirst_Name(e.target.value)}
                />
             </fieldset>
-            <fieldset>
+            <fieldset className="p-4">
                <label htmlFor="last_name">Last Name: &nbsp;</label>
                <input
                   type="text"
@@ -50,7 +52,7 @@ function UserEditForm({ user = {}, updateUser }) {
                   onChange={(e) => setLast_Name(e.target.value)}
                />
             </fieldset>
-            <fieldset>
+            <fieldset className="p-4">
                <label htmlFor="username">User Name: &nbsp;</label>
                <input
                   type="text"
@@ -60,7 +62,7 @@ function UserEditForm({ user = {}, updateUser }) {
                   onChange={(e) => setUsername(e.target.value)}
                />
             </fieldset>
-            <fieldset>
+            <fieldset className="p-4">
                <label htmlFor="password">Password: &nbsp;</label>
                <input
                   type="text"
@@ -70,7 +72,12 @@ function UserEditForm({ user = {}, updateUser }) {
                   onChange={(e) => setPassword(e.target.value)}
                />
             </fieldset>
-            <button type="submit">Update User</button>
+            <button
+               className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded"
+               type="submit"
+            >
+               Update User
+            </button>
          </form>
       </>
    );

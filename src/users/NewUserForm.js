@@ -19,7 +19,7 @@ function NewUserForm({ addUser }) {
 
    return (
       <div>
-         <h1>New User</h1>
+         <h1 className="text-2xl font-bold underline">New User</h1>
          <form onSubmit={handleSubmit}>
             <fieldset className="p-4">
                <label htmlFor="first_name">First Name: &nbsp;</label>
@@ -61,7 +61,12 @@ function NewUserForm({ addUser }) {
                   onChange={(e) => setPassword(e.target.value)}
                />
             </fieldset>
-            <button type="submit">|Add User|</button>
+            <button
+               className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded"
+               type="submit"
+            >
+               Add User
+            </button>
          </form>
       </div>
    );
