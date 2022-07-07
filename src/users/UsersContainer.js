@@ -74,29 +74,30 @@ function UsersContainer() {
    };
 
    const addUserShoe = (userId, formData) => {
-      fetch(`${BASE_URL}/user_shoes`, {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-         },
-         body: JSON.stringify(formData),
-      })
-         .then((res) => res.json())
-         .then((newUserShoe) => {
-            setUsers(
-               users.map((user) => {
-                  if (user.id === newUserShoe.user_id) {
-                     return {
-                        ...user,
-                        user_shoes: user.user_shoes.concat(newUserShoe),
-                     };
-                  } else {
-                     return user;
-                  }
-               })
-            );
-         });
+      console.log(formData);
+      // fetch(`${BASE_URL}/user_shoes`, {
+      //    method: 'POST',
+      //    headers: {
+      //       'Content-Type': 'application/json',
+      //       Accept: 'application/json',
+      //    },
+      //    body: JSON.stringify(formData),
+      // })
+      //    .then((res) => res.json())
+      //    .then((newUserShoe) => {
+      //       setUsers(
+      //          users.map((user) => {
+      //             if (user.id === newUserShoe.user_id) {
+      //                return {
+      //                   ...user,
+      //                   user_shoes: user.user_shoes.concat(newUserShoe),
+      //                };
+      //             } else {
+      //                return user;
+      //             }
+      //          })
+      //       );
+      //    });
    };
 
    const deleteUserShoe = (userId, userShoeId) => {

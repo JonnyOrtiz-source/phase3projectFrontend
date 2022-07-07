@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 function NewUserShoeForm({
    user,
+   shoe,
    toggleShowNewUserShoeForm,
    handleAddUserShoe,
 }) {
@@ -20,6 +21,7 @@ function NewUserShoeForm({
          size,
          UPC,
          user_id: user.id,
+         shoe_id: shoe.id,
       };
       handleAddUserShoe(formData);
    };
@@ -40,7 +42,7 @@ function NewUserShoeForm({
                className="text-black"
                required
                name="purchaseDate"
-               type="datetime-local"
+               type="date"
                onChange={(e) => setPurchaseDate(e.target.value)}
             />
             <label htmlFor="color">Color: &nbsp;</label>
