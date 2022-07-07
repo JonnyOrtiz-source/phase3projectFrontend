@@ -35,6 +35,7 @@ function ShoeEditForm({ shoe = {}, updateShoe }) {
             <fieldset className="p-4">
                <label htmlFor="shoe_name">Shoe Name: &nbsp;</label>
                <input
+                  className="text-black"
                   type="text"
                   name="shoe_name"
                   id="shoe_name"
@@ -45,6 +46,7 @@ function ShoeEditForm({ shoe = {}, updateShoe }) {
             <fieldset className="p-4">
                <label htmlFor="brand">Brand: &nbsp;</label>
                <input
+                  className="text-black"
                   type="text"
                   name="brand"
                   id="brand"
@@ -55,6 +57,7 @@ function ShoeEditForm({ shoe = {}, updateShoe }) {
             <fieldset className="p-4">
                <label htmlFor="sex">Sex: &nbsp;</label>
                <input
+                  className="text-black"
                   type="text"
                   name="sex"
                   id="sex"
@@ -65,6 +68,7 @@ function ShoeEditForm({ shoe = {}, updateShoe }) {
             <fieldset className="p-4">
                <label htmlFor="image_url">Image URL: &nbsp;</label>
                <input
+                  className="text-black"
                   type="text"
                   name="image_url"
                   id="image_url"

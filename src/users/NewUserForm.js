@@ -24,6 +24,7 @@ function NewUserForm({ addUser }) {
             <fieldset className="p-4">
                <label htmlFor="first_name">First Name: &nbsp;</label>
                <input
+                  className="text-black"
                   type="text"
                   name="first_name"
                   id="first_name"
@@ -34,6 +35,7 @@ function NewUserForm({ addUser }) {
             <fieldset className="p-4">
                <label htmlFor="last_name">Last Name: &nbsp;</label>
                <input
+                  className="text-black"
                   type="text"
                   name="last_name"
                   id="last_name"
@@ -44,6 +46,7 @@ function NewUserForm({ addUser }) {
             <fieldset className="p-4">
                <label htmlFor="username">User Name: &nbsp;</label>
                <input
+                  className="text-black"
                   type="text"
                   name="username"
                   id="username"
@@ -54,6 +57,7 @@ function NewUserForm({ addUser }) {
             <fieldset className="p-4">
                <label htmlFor="password">Password: &nbsp;</label>
                <input
+                  className="text-black"
                   type="text"
                   name="password"
                   id="password"
