@@ -1,8 +1,8 @@
 import { useState } from 'react';
+// import Dropdown from './Dropdown';
 
 function NewUserShoeForm({
    user,
-   shoe,
    toggleShowNewUserShoeForm,
    handleAddUserShoe,
 }) {
@@ -21,7 +21,6 @@ function NewUserShoeForm({
          size,
          UPC,
          user_id: user.id,
-         shoe_id: shoe.id,
       };
       handleAddUserShoe(formData);
    };
@@ -29,6 +28,12 @@ function NewUserShoeForm({
    return (
       <div>
          <form onSubmit={handleSubmit}>
+            {/* <Dropdown
+               label="What do we eat?"
+               options={options}
+               value={value}
+               onChange={handleChange}
+            />{' '} */}
             <label htmlFor="shoeType">Shoe Type: &nbsp;</label>
             <input
                className="text-black"
