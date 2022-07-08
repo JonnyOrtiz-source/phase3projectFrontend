@@ -39,8 +39,18 @@ function UserDetail({ user = {}, addUserShoe, deleteUserShoe, deleteUser }) {
             <div className="text-2xl font-bold">
                {first_name} {last_name}
             </div>
-            <Link to={`/users/{id}/edit`}>✍🏼 </Link>
-            <button onClick={() => deleteUser(id)}>❌</button>
+            <Link
+               to={`/users/{id}/edit`}
+               className="bg-orange-500 hover:bg-orange-400 text-white font-bold py-2 px-4 border-b-4 border-orange-700 hover:border-orange-500 rounded"
+            >
+               ✍🏼{' '}
+            </Link>
+            <button
+               className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded"
+               onClick={() => deleteUser(id)}
+            >
+               ❌
+            </button>
          </div>
          <div>
             <div className="text-2xl">
@@ -55,19 +65,26 @@ function UserDetail({ user = {}, addUserShoe, deleteUserShoe, deleteUser }) {
          <ul>
             {shoes?.map((userShoe) => (
                <li key={userShoe.id}>
-                  <Link to={`/shoes/${userShoe.shoe_id}`}>
+                  <Link to={`/shoes/${userShoe.id}`}>
                      Shoe Type: {userShoe.user_shoes[0].shoe_type} {'  '}
                      Brand: {userShoe.brand} {'  '} Shoe Name:{' '}
                      {userShoe.shoe_name}
                      {'  '}
                      <br /> Sex: {userShoe.sex} Purchase Date: {'  '}
-                     {userShoe.user_shoes[0].purchase_date} {'  '} Color:{'  '}
+                     {userShoe.user_shoes[0].purchase_date} {'  '} Color:
+                     {'  '}
                      {userShoe.user_shoes[0].color} {'  '} Size:{'  '}
                      {userShoe.user_shoes[0].size}
+                     <span hidden>{userShoe.user_shoes[0].id}</span>
                   </Link>{' '}
                   &nbsp;&nbsp;
-                  <button onClick={() => deleteUserShoe(id, userShoe.id)}>
-                     ❌
+                  <button
+                     className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded"
+                     onClick={() =>
+                        deleteUserShoe(id, userShoe.user_shoes[0].id)
+                     }
+                  >
+                     ❌ <span className="text-sm">shoe</span>
                   </button>
                   <hr />
                </li>
