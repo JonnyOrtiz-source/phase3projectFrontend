@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import NewUserShoeForm from './NewUserShoeForm';
 
-function UserDetail({ user = {}, addUserShoe, deleteUserShoe, deleteUser }) {
-   const { id, first_name, last_name, shoes } = user;
+function UserDetail({ user = {}, deleteUser, users }) {
+   const [currentUser, setCurrentUser] = useState(user);
    const [showNewUserShoeForm, setShowNewUserShoeForm] = useState(false);
+
+   const { id, first_name, last_name, shoes } = currentUser;
 
    const BASE_URL = 'http://localhost:9292';
    const [allShoes, setAllShoes] = useState([]);
@@ -23,6 +25,40 @@ function UserDetail({ user = {}, addUserShoe, deleteUserShoe, deleteUser }) {
             alert(err);
          });
    }, []);
+
+   const addUserShoe = (userId, formData) => {
+      fetch(`${BASE_URL}/user_shoes`, {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+         },
+         body: JSON.stringify(formData),
+      })
+         .then((res) => res.json())
+         .then((newUserShoe) => {
+            const foundShoes = allShoes.find(
+               (shoe) => shoe.id === newUserShoe.shoe_id
+            );
+
+            const updatedUserWithShoeObj = {
+               ...user,
+               shoes: [{ ...foundShoes, user_shoes: [newUserShoe] }],
+            };
+
+            setCurrentUser(updatedUserWithShoeObj);
+         })
+         .catch((err) => alert(err));
+   };
+
+   const deleteUserShoe = (userId, userShoeId) => {
+      if (window.confirm('Are you sure you want to delete this user shoe?')) {
+         setCurrentUser(user);
+         fetch(`${BASE_URL}/user_shoes/${userShoeId}`, {
+            method: 'DELETE',
+         });
+      }
+   };
 
    const toggleShowNewUserShoeForm = () => {
       setShowNewUserShoeForm(!showNewUserShoeForm);

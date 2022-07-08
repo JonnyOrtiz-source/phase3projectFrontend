@@ -8,7 +8,6 @@ import UserEditForm from './UserEditForm';
 function UsersContainer() {
    const BASE_URL = 'http://localhost:9292';
    const [users, setUsers] = useState([]);
-   const [shoesList, setShoesList] = useState([]);
    const history = useHistory();
    const location = useLocation();
 
@@ -16,15 +15,6 @@ function UsersContainer() {
       fetch(`${BASE_URL}/users`)
          .then((r) => r.json())
          .then((users) => setUsers(users))
-         .catch((err) => {
-            alert(err);
-         });
-   }, []);
-
-   useEffect(() => {
-      fetch(`${BASE_URL}/shoes`)
-         .then((r) => r.json())
-         .then((shoes) => setShoesList(shoes))
          .catch((err) => {
             alert(err);
          });
@@ -83,81 +73,6 @@ function UsersContainer() {
       }
    };
 
-   const addUserShoe = (userId, formData) => {
-      fetch(`${BASE_URL}/user_shoes`, {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-         },
-         body: JSON.stringify(formData),
-      })
-         .then((res) => res.json())
-         .then((newUserShoe) => {
-            // find the user and the shoe, then add the user_shoe to the nested shoes property
-            const foundUser = users.find(
-               (user) => user.id === newUserShoe.user_id
-            );
-            const foundShoes = shoesList.find(
-               (shoe) => shoe.id === newUserShoe.shoe_id
-            );
-
-            // console.log(foundShoes);
-
-            const updatedUserWithShoeObj = {
-               ...foundUser,
-               shoes: [{ ...foundShoes, user_shoes: [newUserShoe] }],
-            };
-
-            setUsers(updatedUserWithShoeObj);
-            // console.log(updatedUserWithShoeObj);
-
-            // setUsers(
-            //    users.map((user) => {
-            //       if (user.id === newUserShoe.user_id) {
-            //          return {
-            //             ...user,
-
-            //             // BUG: CONCAT ISN'T WORKING
-            //             user_shoes: user.shoes.user_shoes.concat(newUserShoe),
-            //          };
-            //       } else {
-            //          return user;
-            //       }
-            //       console.log(user);
-            //    })
-            // );
-         })
-         .catch((err) => alert(err));
-   };
-
-   const deleteUserShoe = (userId, userShoeId) => {
-      if (window.confirm('Are you sure you want to delete this user shoe?')) {
-         const userToUpdate = users.find(
-            (user) => user.id === parseInt(userId)
-         );
-         const updatedUsers = users.map((user) => {
-            if (user === userToUpdate) {
-               return {
-                  ...userToUpdate,
-                  user_shoes: user.shoes[0].user_shoes.filter((userShoe) => {
-                     return userShoe.id !== userShoeId;
-                  }),
-               };
-            } else {
-               return user;
-            }
-         });
-         console.log('updatedUsers:', updatedUsers);
-
-         // BUG: NOT RERENDERING
-         fetch(`${BASE_URL}/user_shoes/${userShoeId}`, {
-            method: 'DELETE',
-         });
-         setUsers(updatedUsers);
-      }
-   };
-
    return (
       <div>
          <Switch>
@@ -172,9 +87,7 @@ function UsersContainer() {
                path="/users/:id"
                render={({ match }) => (
                   <UserDetail
-                     deleteUserShoe={deleteUserShoe}
                      deleteUser={deleteUser}
-                     addUserShoe={addUserShoe}
                      user={users.find(
                         (user) => user.id === parseInt(match.params.id)
                      )}
@@ -191,6 +104,7 @@ function UsersContainer() {
                         (user) => user.id === parseInt(match.params.id)
                      )}
                      updateUser={updateUser}
+                     users={users}
                   />
                )}
             />
