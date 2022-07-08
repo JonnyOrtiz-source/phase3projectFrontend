@@ -26,21 +26,6 @@ function UserDetail({ user, deleteUser }) {
          });
    }, []);
 
-   // useEffect(() => {
-   //    fetch(`${BASE_URL}/user_shoes`, {
-   //       method: 'GET',
-   //       headers: {
-   //          'Content-type': 'application/json',
-   //          Accept: 'application/json',
-   //       },
-   //    })
-   //       .then((r) => r.json())
-   //       .then((userShoes) => setAllUserShoes(shoes))
-   //       .catch((err) => {
-   //          alert(err);
-   //       });
-   // }, []);
-
    const addUserShoe = (userId, formData) => {
       fetch(`${BASE_URL}/user_shoes`, {
          method: 'POST',
@@ -58,15 +43,13 @@ function UserDetail({ user, deleteUser }) {
 
             const updatedUserWithShoeObj = {
                ...user,
-               shoes: [{ ...foundShoes, user_shoes: [newUserShoe] }],
+               shoes: [...shoes, { ...foundShoes, user_shoes: [newUserShoe] }],
             };
 
             setCurrentUser(updatedUserWithShoeObj);
          })
          .catch((err) => alert(err));
    };
-
-   console.log(currentUser);
 
    const deleteUserShoe = (userId, userShoeId) => {
       if (window.confirm('Are you sure you want to delete this user shoe?')) {
@@ -78,7 +61,8 @@ function UserDetail({ user, deleteUser }) {
             .then((r) => r.json())
             .then((updatedUser) => {
                setCurrentUser(updatedUser);
-            });
+            })
+            .catch((err) => alert(err));
       }
    };
 
