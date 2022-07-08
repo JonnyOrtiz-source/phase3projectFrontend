@@ -31,10 +31,30 @@ function NewUserShoeForm({
       return { label: shoe.shoe_name, value: shoe.id };
    });
 
+   const typeOptions = [
+      { label: 'Dress', value: 'Dress' },
+      { label: 'Sneakers', value: 'Sneakers' },
+      { label: 'Clogs', value: 'Clogs' },
+      { label: 'Sandals', value: 'Sandals' },
+      { label: 'Wedges', value: 'Wedges' },
+      { label: 'Boots', value: 'Boots' },
+      { label: 'Slippers', value: 'Slippers' },
+      { label: 'Flats', value: 'Flats' },
+      { label: 'Heels', value: 'Heels' },
+      { label: 'Boat Shoes', value: 'Boat Shoes' },
+      { label: 'Loafers', value: 'Loafers' },
+      { label: 'Mules', value: 'Mules' },
+      { label: 'Oxfords', value: 'Oxfords' },
+   ];
+
    const [shoe_id, setShoe_Id] = useState(options[0].shoe_name);
 
    const handleChange = (e) => {
       setShoe_Id(e.target.value);
+   };
+
+   const handleTypeChange = (e) => {
+      setShoeType(e.target.value);
    };
 
    const handleSubmit = async (e) => {
@@ -60,8 +80,15 @@ function NewUserShoeForm({
                value={shoe_id}
                handleChange={handleChange}
             />{' '}
+            &nbsp; &nbsp;
+            <Dropdown
+               label="Select shoe type: "
+               options={typeOptions}
+               value={shoe_type}
+               handleChange={handleTypeChange}
+            />{' '}
             <br />
-            <label htmlFor="shoeType">Shoe Type: &nbsp;</label>
+            {/* <label htmlFor="shoeType">Shoe Type: &nbsp;</label>
             <input
                className="text-black"
                required
@@ -69,7 +96,7 @@ function NewUserShoeForm({
                type="text"
                onChange={(e) => setShoeType(e.target.value)}
             />{' '}
-            &nbsp; &nbsp;
+            &nbsp; &nbsp; */}
             <label htmlFor="purchaseDate">Purchase Date: &nbsp;</label>
             <input
                className="text-black"

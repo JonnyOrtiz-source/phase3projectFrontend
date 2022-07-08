@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import NewUserShoeForm from './NewUserShoeForm';
 
-function UserDetail({ user = {}, deleteUser, users }) {
+function UserDetail({ user, deleteUser }) {
    const [currentUser, setCurrentUser] = useState(user);
    const [showNewUserShoeForm, setShowNewUserShoeForm] = useState(false);
 
@@ -25,6 +25,21 @@ function UserDetail({ user = {}, deleteUser, users }) {
             alert(err);
          });
    }, []);
+
+   // useEffect(() => {
+   //    fetch(`${BASE_URL}/user_shoes`, {
+   //       method: 'GET',
+   //       headers: {
+   //          'Content-type': 'application/json',
+   //          Accept: 'application/json',
+   //       },
+   //    })
+   //       .then((r) => r.json())
+   //       .then((userShoes) => setAllUserShoes(shoes))
+   //       .catch((err) => {
+   //          alert(err);
+   //       });
+   // }, []);
 
    const addUserShoe = (userId, formData) => {
       fetch(`${BASE_URL}/user_shoes`, {
@@ -51,12 +66,19 @@ function UserDetail({ user = {}, deleteUser, users }) {
          .catch((err) => alert(err));
    };
 
+   console.log(currentUser);
+
    const deleteUserShoe = (userId, userShoeId) => {
       if (window.confirm('Are you sure you want to delete this user shoe?')) {
-         setCurrentUser(user);
          fetch(`${BASE_URL}/user_shoes/${userShoeId}`, {
             method: 'DELETE',
          });
+
+         fetch(`${BASE_URL}/users/${userId}`)
+            .then((r) => r.json())
+            .then((updatedUser) => {
+               setCurrentUser(updatedUser);
+            });
       }
    };
 

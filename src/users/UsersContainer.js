@@ -8,13 +8,18 @@ import UserEditForm from './UserEditForm';
 function UsersContainer() {
    const BASE_URL = 'http://localhost:9292';
    const [users, setUsers] = useState([]);
+   const [status, setStatus] = useState(false);
    const history = useHistory();
    const location = useLocation();
 
    useEffect(() => {
       fetch(`${BASE_URL}/users`)
          .then((r) => r.json())
-         .then((users) => setUsers(users))
+         .then((users) => {
+            console.log(users);
+            setUsers(users);
+            setStatus(true);
+         })
          .catch((err) => {
             alert(err);
          });
@@ -82,19 +87,20 @@ function UsersContainer() {
             <Route exact path="/users/new">
                <NewUserForm users={users} addUser={addUser} />
             </Route>
-            <Route
-               exact
-               path="/users/:id"
-               render={({ match }) => (
-                  <UserDetail
-                     deleteUser={deleteUser}
-                     user={users.find(
-                        (user) => user.id === parseInt(match.params.id)
-                     )}
-                  />
-               )}
-            />
-
+            {status && (
+               <Route
+                  exact
+                  path="/users/:id"
+                  render={({ match }) => (
+                     <UserDetail
+                        deleteUser={deleteUser}
+                        user={users?.find(
+                           (user) => user.id === parseInt(match.params.id)
+                        )}
+                     />
+                  )}
+               />
+            )}
             <Route
                exact
                path="/users/:id/edit"
