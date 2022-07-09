@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom';
 import ShoeListItem from './ShoeListItem';
 
-function ShoesList({ shoes, deleteShoe }) {
+function ShoesList({ BASE_URL, shoes, deleteShoe }) {
    const shoesEl = shoes.map((shoe) => (
-      <ShoeListItem key={shoe.id} shoe={shoe} deleteShoe={deleteShoe} />
+      <ShoeListItem
+         BASE_URL={BASE_URL}
+         key={shoe.id}
+         shoe={shoe}
+         deleteShoe={deleteShoe}
+      />
    ));
    return (
       <div>
@@ -14,7 +19,7 @@ function ShoesList({ shoes, deleteShoe }) {
             >
                👣 All Shoes
             </Link>
-            <Link to="/shoes/new">|➕ New Shoe|</Link>
+            <Link to="/shoes/new">|➕ Add Shoe|</Link>
          </div>
          <div className="inline-grid grid-cols-3 gap-4">{shoesEl}</div>
       </div>

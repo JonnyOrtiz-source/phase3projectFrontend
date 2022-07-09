@@ -88,15 +88,6 @@ function NewUserShoeForm({
                handleChange={handleTypeChange}
             />{' '}
             <br />
-            {/* <label htmlFor="shoeType">Shoe Type: &nbsp;</label>
-            <input
-               className="text-black"
-               required
-               name="shoeType"
-               type="text"
-               onChange={(e) => setShoeType(e.target.value)}
-            />{' '}
-            &nbsp; &nbsp; */}
             <label htmlFor="purchaseDate">Purchase Date: &nbsp;</label>
             <input
                className="text-black"

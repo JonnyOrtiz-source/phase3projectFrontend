@@ -1,27 +1,47 @@
-import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useForm } from '../hooks/useForm';
 
-function NewShoeForm({ addShoe }) {
-   const [shoe_name, setShoe_Name] = useState('');
-   const [brand, setBrand] = useState('');
-   const [sex, setSex] = useState('');
-   const [image_url, setImageUrl] = useState(
-      'https://res.cloudinary.com/dnocv6uwb/image/upload/v1609370267/dakota-and-lennon-square-compressed_hoenfo.jpg'
-   );
+function NewShoeForm({ BASE_URL, addShoe }) {
+   const initialData = {
+      shoe_name: '',
+      brand: '',
+      sex: '',
+      image_url: 'https://jallieortiz.com/media/Benji.jpeg',
+   };
+
+   const { formData, setFormData, handleChange } = useForm(initialData);
+
+   const history = useHistory();
 
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      addShoe({
-         shoe_name,
-         brand,
-         sex,
-         image_url,
-      });
+      const configObj = {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+         },
+         body: JSON.stringify({ ...formData }),
+      };
+
+      fetch(`${BASE_URL}/shoes`, configObj)
+         .then((r) => r.json())
+         .then((newShoe) => {
+            addShoe(newShoe);
+            setFormData({
+               shoe_name: '',
+               brand: '',
+               sex: '',
+               image_url: '',
+            });
+            history.push(`/shoes/`);
+         });
    };
 
    return (
       <div>
-         <h1 className="text-2xl font-bold underline">New Shoe</h1>
+         <p className="text-2xl font-bold underline">New Shoe</p>
          <form onSubmit={handleSubmit}>
             <fieldset className="p-4">
                <label htmlFor="shoe_name">Shoe Name: &nbsp;</label>
@@ -30,8 +50,8 @@ function NewShoeForm({ addShoe }) {
                   type="text"
                   name="shoe_name"
                   id="shoe_name"
-                  value={shoe_name}
-                  onChange={(e) => setShoe_Name(e.target.value)}
+                  value={formData.shoe_name}
+                  onChange={handleChange}
                />
             </fieldset>
             <fieldset className="p-4">
@@ -41,8 +61,8 @@ function NewShoeForm({ addShoe }) {
                   type="text"
                   name="brand"
                   id="brand"
-                  value={brand}
-                  onChange={(e) => setBrand(e.target.value)}
+                  value={formData.brand}
+                  onChange={handleChange}
                />
             </fieldset>
             <fieldset className="p-4">
@@ -52,8 +72,8 @@ function NewShoeForm({ addShoe }) {
                   type="text"
                   name="sex"
                   id="sex"
-                  value={sex}
-                  onChange={(e) => setSex(e.target.value)}
+                  value={formData.sex}
+                  onChange={handleChange}
                />
             </fieldset>
             <fieldset className="p-4">
@@ -63,8 +83,8 @@ function NewShoeForm({ addShoe }) {
                   type="text"
                   name="image_url"
                   id="image_url"
-                  value={image_url}
-                  onChange={(e) => setImageUrl(e.target.value)}
+                  value={formData.image_url}
+                  onChange={handleChange}
                />
             </fieldset>
             <button

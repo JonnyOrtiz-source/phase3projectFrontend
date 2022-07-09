@@ -1,29 +1,43 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import { useForm } from '../hooks/useForm';
 
-function ShoeEditForm({ shoe = {}, updateShoe }) {
-   const [shoe_name, setShoe_Name] = useState(shoe.shoe_name);
-   const [brand, setBrand] = useState(shoe.brand);
-   const [sex, setSex] = useState(shoe.sex);
-   const [image_url, setImageUrl] = useState(shoe.image_url);
+function ShoeEditForm({ BASE_URL, shoe = {}, updateShoe }) {
+   const initialData = {
+      first_name: '',
+      last_name: '',
+      username: '',
+      password: '',
+   };
+
+   const { formData, setFormData, handleChange } = useForm(initialData);
+
+   const history = useHistory();
    const { id } = useParams();
 
    useEffect(() => {
-      setShoe_Name(shoe.shoe_name);
-      setBrand(shoe.brand);
-      setSex(shoe.sex);
-      setImageUrl(shoe.image_url);
-   }, [shoe]);
+      fetch(`${BASE_URL}/shoes/${id}`)
+         .then((r) => r.json())
+         .then((shoe) => setFormData(shoe));
+   }, [id, BASE_URL, setFormData]);
 
    const handleSubmit = (e) => {
       e.preventDefault();
+      const configObj = {
+         method: 'PATCH',
+         headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+         },
+         body: JSON.stringify(formData),
+      };
 
-      updateShoe(id, {
-         shoe_name,
-         brand,
-         sex,
-         image_url,
-      });
+      fetch(`${BASE_URL}/shoes/${id}`, configObj)
+         .then((r) => r.json())
+         .then((updatedShoe) => {
+            updateShoe(updatedShoe);
+            history.push(`/shoes`);
+         });
    };
 
    return (
@@ -39,8 +53,8 @@ function ShoeEditForm({ shoe = {}, updateShoe }) {
                   type="text"
                   name="shoe_name"
                   id="shoe_name"
-                  value={shoe_name}
-                  onChange={(e) => setShoe_Name(e.target.value)}
+                  value={formData.shoe_name}
+                  onChange={handleChange}
                />
             </fieldset>
             <fieldset className="p-4">
@@ -50,8 +64,8 @@ function ShoeEditForm({ shoe = {}, updateShoe }) {
                   type="text"
                   name="brand"
                   id="brand"
-                  value={brand}
-                  onChange={(e) => setBrand(e.target.value)}
+                  value={formData.brand}
+                  onChange={handleChange}
                />
             </fieldset>
             <fieldset className="p-4">
@@ -61,8 +75,8 @@ function ShoeEditForm({ shoe = {}, updateShoe }) {
                   type="text"
                   name="sex"
                   id="sex"
-                  value={sex}
-                  onChange={(e) => setSex(e.target.value)}
+                  value={formData.sex}
+                  onChange={handleChange}
                />
             </fieldset>
             <fieldset className="p-4">
@@ -72,8 +86,8 @@ function ShoeEditForm({ shoe = {}, updateShoe }) {
                   type="text"
                   name="image_url"
                   id="image_url"
-                  value={image_url}
-                  onChange={(e) => setImageUrl(e.target.value)}
+                  value={formData.image_url}
+                  onChange={handleChange}
                />
             </fieldset>
             <button

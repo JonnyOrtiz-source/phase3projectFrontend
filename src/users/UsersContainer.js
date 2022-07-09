@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import UsersList from './UsersList';
 import UserDetail from './UserDetail';
 import NewUserForm from './NewUserForm';
@@ -9,14 +9,11 @@ function UsersContainer() {
    const BASE_URL = 'http://localhost:9292';
    const [users, setUsers] = useState([]);
    const [status, setStatus] = useState(false);
-   const history = useHistory();
-   const location = useLocation();
 
    useEffect(() => {
       fetch(`${BASE_URL}/users`)
          .then((r) => r.json())
          .then((users) => {
-            console.log(users);
             setUsers(users);
             setStatus(true);
          })
@@ -25,67 +22,38 @@ function UsersContainer() {
          });
    }, []);
 
-   const addUser = (formData) => {
-      fetch(`${BASE_URL}/users`, {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-         },
-         body: JSON.stringify(formData),
-      })
-         .then((res) => res.json())
-         .then((newUser) => {
-            setUsers(users.concat(newUser));
-            history.push(`/users/${newUser.id}`);
-         });
+   const addUser = (newUser) => {
+      setUsers((users) => [...users, newUser]);
    };
 
-   const updateUser = (id, formData) => {
-      fetch(`${BASE_URL}/users/${id}`, {
-         method: 'PATCH',
-         headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-         },
-         body: JSON.stringify(formData),
-      })
-         .then((res) => res.json())
-         .then((updatedUser) => {
-            setUsers(
-               users.map((user) =>
-                  user.id === parseInt(id) ? updatedUser : user
-               )
-            );
-            history.push(`/users/${updatedUser.id}`);
-         });
+   const updateUser = (updatedUser) => {
+      const updatedUsers = users.map((prevUser) => {
+         if (prevUser.id === updatedUser.id) {
+            return updatedUser;
+         } else {
+            return prevUser;
+         }
+      });
+      setUsers(updatedUsers);
    };
 
-   const deleteUser = (userId) => {
-      if (window.confirm('Are you sure you want to delete this user?')) {
-         setUsers(users.filter((user) => user.id !== parseInt(userId)));
-         fetch(`${BASE_URL}/users/${userId}`, {
-            method: 'DELETE',
-            headers: { Accept: 'application/json' },
-         })
-            .then((res) => res.json())
-            .then((deletedUser) => {
-               console.log('deleted', deletedUser.name);
-               if (location.pathname !== '/users') {
-                  history.push('/users');
-               }
-            });
-      }
+   const deleteUser = (deletedUser) => {
+      const updatedUsers = users.filter((user) => user.id !== deletedUser.id);
+      setUsers(updatedUsers);
    };
 
    return (
       <div>
          <Switch>
             <Route exact path="/users">
-               <UsersList users={users} deleteUser={deleteUser} />
+               <UsersList
+                  BASE_URL={BASE_URL}
+                  users={users}
+                  deleteUser={deleteUser}
+               />
             </Route>
             <Route exact path="/users/new">
-               <NewUserForm users={users} addUser={addUser} />
+               <NewUserForm BASE_URL={BASE_URL} addUser={addUser} />
             </Route>
             {status && (
                <Route
@@ -106,6 +74,7 @@ function UsersContainer() {
                path="/users/:id/edit"
                render={({ match }) => (
                   <UserEditForm
+                     BASE_URL={BASE_URL}
                      user={users.find(
                         (user) => user.id === parseInt(match.params.id)
                      )}

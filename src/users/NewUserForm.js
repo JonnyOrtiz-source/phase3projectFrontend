@@ -1,20 +1,42 @@
-import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useForm } from '../hooks/useForm';
 
-function NewUserForm({ addUser }) {
-   const [first_name, setFirst_Name] = useState('');
-   const [last_name, setLast_Name] = useState('');
-   const [username, setUsername] = useState('');
-   const [password, setPassword] = useState('');
+function NewUserForm({ BASE_URL, addUser }) {
+   const initialData = {
+      first_name: '',
+      last_name: '',
+      username: '',
+      password: '',
+   };
+
+   const { formData, setFormData, handleChange } = useForm(initialData);
+
+   const history = useHistory();
 
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      addUser({
-         first_name,
-         last_name,
-         username,
-         password,
-      });
+      const configObj = {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+         },
+         body: JSON.stringify({ ...formData }),
+      };
+
+      fetch(`${BASE_URL}/users`, configObj)
+         .then((r) => r.json())
+         .then((newUser) => {
+            addUser(newUser);
+            setFormData({
+               first_name: '',
+               last_name: '',
+               username: '',
+               password: '',
+            });
+            history.push(`/users/`);
+         });
    };
 
    return (
@@ -28,8 +50,8 @@ function NewUserForm({ addUser }) {
                   type="text"
                   name="first_name"
                   id="first_name"
-                  value={first_name}
-                  onChange={(e) => setFirst_Name(e.target.value)}
+                  value={formData.first_name}
+                  onChange={handleChange}
                />
             </fieldset>
             <fieldset className="p-4">
@@ -39,8 +61,8 @@ function NewUserForm({ addUser }) {
                   type="text"
                   name="last_name"
                   id="last_name"
-                  value={last_name}
-                  onChange={(e) => setLast_Name(e.target.value)}
+                  value={formData.last_name}
+                  onChange={handleChange}
                />
             </fieldset>
             <fieldset className="p-4">
@@ -50,8 +72,8 @@ function NewUserForm({ addUser }) {
                   type="text"
                   name="username"
                   id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={formData.username}
+                  onChange={handleChange}
                />
             </fieldset>
             <fieldset className="p-4">
@@ -61,8 +83,8 @@ function NewUserForm({ addUser }) {
                   type="text"
                   name="password"
                   id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={formData.password}
+                  onChange={handleChange}
                />
             </fieldset>
             <button

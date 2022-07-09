@@ -1,36 +1,50 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import { useForm } from '../hooks/useForm';
 
-function UserEditForm({ user = {}, updateUser }) {
-   const [first_name, setFirst_Name] = useState(user.first_name);
-   const [last_name, setLast_Name] = useState(user.last_name);
-   const [username, setUsername] = useState(user.username);
-   const [password, setPassword] = useState(user.password);
+function UserEditForm({ BASE_URL, user = {}, updateUser }) {
+   const initialData = {
+      first_name: '',
+      last_name: '',
+      username: '',
+      password: '',
+   };
+
+   const { formData, setFormData, handleChange } = useForm(initialData);
+
+   const history = useHistory();
    const { id } = useParams();
 
    useEffect(() => {
-      setFirst_Name(user.first_name);
-      setLast_Name(user.last_name);
-      setUsername(user.username);
-      setPassword(user.password);
-   }, [user]);
+      fetch(`${BASE_URL}/users/${id}`)
+         .then((r) => r.json())
+         .then((user) => setFormData(user));
+   }, [id, BASE_URL, setFormData]);
 
    const handleSubmit = (e) => {
       e.preventDefault();
+      const configObj = {
+         method: 'PATCH',
+         headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+         },
+         body: JSON.stringify(formData),
+      };
 
-      updateUser(id, {
-         first_name,
-         last_name,
-         username,
-         password,
-      });
+      fetch(`${BASE_URL}/users/${id}`, configObj)
+         .then((r) => r.json())
+         .then((updatedUser) => {
+            updateUser(updatedUser);
+            history.push(`/users/${id}`);
+         });
    };
 
    return (
       <>
-         <h1 className="text-2xl font-bold underline">
+         <p className="text-2xl font-bold underline">
             Edit User: {user.username}
-         </h1>
+         </p>
          <form onSubmit={handleSubmit}>
             <fieldset className="p-4">
                <label htmlFor="first_name">First Name: &nbsp;</label>
@@ -39,8 +53,8 @@ function UserEditForm({ user = {}, updateUser }) {
                   type="text"
                   name="first_name"
                   id="first_name"
-                  value={first_name}
-                  onChange={(e) => setFirst_Name(e.target.value)}
+                  value={formData.first_name}
+                  onChange={handleChange}
                />
             </fieldset>
             <fieldset className="p-4">
@@ -50,8 +64,8 @@ function UserEditForm({ user = {}, updateUser }) {
                   type="text"
                   name="last_name"
                   id="last_name"
-                  value={last_name}
-                  onChange={(e) => setLast_Name(e.target.value)}
+                  value={formData.last_name}
+                  onChange={handleChange}
                />
             </fieldset>
             <fieldset className="p-4">
@@ -61,8 +75,8 @@ function UserEditForm({ user = {}, updateUser }) {
                   type="text"
                   name="username"
                   id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={formData.username}
+                  onChange={handleChange}
                />
             </fieldset>
             <fieldset className="p-4">
@@ -72,8 +86,8 @@ function UserEditForm({ user = {}, updateUser }) {
                   type="text"
                   name="password"
                   id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={formData.password}
+                  onChange={handleChange}
                />
             </fieldset>
             <button

@@ -1,9 +1,14 @@
 import { Link } from 'react-router-dom';
 import UserListItem from './UserListItem';
 
-function UsersList({ users, deleteUser }) {
+function UsersList({ BASE_URL, users, deleteUser }) {
    const usersEl = users.map((user) => (
-      <UserListItem key={user.id} user={user} deleteUser={deleteUser} />
+      <UserListItem
+         key={user.id}
+         user={user}
+         deleteUser={deleteUser}
+         BASE_URL={BASE_URL}
+      />
    ));
    return (
       <>
@@ -14,7 +19,7 @@ function UsersList({ users, deleteUser }) {
             >
                👥 All Users
             </Link>
-            <Link to="/users/new">|➕ New User|</Link>
+            <Link to="/users/new">|➕ Add User|</Link>
          </div>
          <div className="inline-grid grid-cols-3 gap-4">{usersEl}</div>
       </>
